@@ -1,0 +1,53 @@
+{
+	"abstract" : true,
+	"artifacts" : 
+	[
+		{
+			"path" : "C:/Users/Cameron/Documents/Repos/Apartment-Codebase/cl_dll/../utils/vgui/lib/win32_vc16/vgui.lib"
+		},
+		{
+			"path" : "C:/Users/Cameron/Documents/Repos/Apartment-Codebase/cl_dll/../utils/vgui/lib/win32_vc16/vgui.lib"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library"
+		],
+		"files" : 
+		[
+			"cl_dll/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 11,
+				"parent" : 0
+			}
+		]
+	},
+	"codemodelVersion" : 
+	{
+		"major" : 2,
+		"minor" : 10
+	},
+	"id" : "vgui::@5b4006d276b3e6a1c44b",
+	"imported" : true,
+	"local" : true,
+	"name" : "vgui",
+	"nameOnDisk" : "vgui.lib",
+	"paths" : 
+	{
+		"build" : "cl_dll",
+		"source" : "cl_dll"
+	},
+	"sources" : [],
+	"type" : "SHARED_LIBRARY"
+}

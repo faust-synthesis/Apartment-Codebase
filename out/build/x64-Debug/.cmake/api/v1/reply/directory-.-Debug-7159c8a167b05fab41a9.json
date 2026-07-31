@@ -1,0 +1,118 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"install"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 168,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 173,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 178,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 183,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 184,
+				"parent" : 0
+			}
+		]
+	},
+	"codemodelVersion" : 
+	{
+		"major" : 2,
+		"minor" : 10
+	},
+	"installers" : 
+	[
+		{
+			"backtrace" : 1,
+			"component" : "Unspecified",
+			"destination" : "cl_dlls",
+			"paths" : 
+			[
+				"cl_dll/client.dll"
+			],
+			"targetId" : "client::@5b4006d276b3e6a1c44b",
+			"targetIndex" : 0,
+			"type" : "target"
+		},
+		{
+			"backtrace" : 2,
+			"component" : "Unspecified",
+			"destination" : "dlls",
+			"paths" : 
+			[
+				"dlls/hl.dll"
+			],
+			"targetId" : "hl::@f570dc9daf8c42769790",
+			"targetIndex" : 1,
+			"type" : "target"
+		},
+		{
+			"backtrace" : 3,
+			"component" : "Unspecified",
+			"destination" : ".",
+			"paths" : 
+			[
+				"network/delta.lst"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 4,
+			"component" : "Unspecified",
+			"destination" : "cl_dlls",
+			"isOptional" : true,
+			"paths" : 
+			[
+				"out/build/x64-Debug/cl_dll/client.pdb"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 5,
+			"component" : "Unspecified",
+			"destination" : "dlls",
+			"isOptional" : true,
+			"paths" : 
+			[
+				"out/build/x64-Debug/dlls/hl.pdb"
+			],
+			"type" : "file"
+		}
+	],
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	}
+}

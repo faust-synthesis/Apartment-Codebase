@@ -1,0 +1,129 @@
+{
+	"configurations" : 
+	[
+		{
+			"abstractTargets" : 
+			[
+				{
+					"directoryIndex" : 1,
+					"id" : "SDL2::@5b4006d276b3e6a1c44b",
+					"jsonFile" : "target-SDL2-Debug-2bd210375399f0dc497e.json",
+					"name" : "SDL2",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "vgui::@5b4006d276b3e6a1c44b",
+					"jsonFile" : "target-vgui-Debug-9557ff7368774ead5759.json",
+					"name" : "vgui",
+					"projectIndex" : 0
+				}
+			],
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-7159c8a167b05fab41a9.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.23"
+					},
+					"projectIndex" : 0,
+					"source" : "."
+				},
+				{
+					"abstractTargetIndexes" : 
+					[
+						0,
+						1
+					],
+					"build" : "cl_dll",
+					"jsonFile" : "directory-cl_dll-Debug-66731a3e5d0ca58a4ca8.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.23"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "cl_dll",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "dlls",
+					"jsonFile" : "directory-dlls-Debug-f7035a2134e51f2d8350.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.23"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "dlls",
+					"targetIndexes" : 
+					[
+						1
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"abstractTargetIndexes" : 
+					[
+						0,
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2
+					],
+					"name" : "HalfLifeMod",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 1,
+					"id" : "client::@5b4006d276b3e6a1c44b",
+					"jsonFile" : "target-client-Debug-d2c755ccfb4763b38e80.json",
+					"name" : "client",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "hl::@f570dc9daf8c42769790",
+					"jsonFile" : "target-hl-Debug-b5b415272e0dd27d721d.json",
+					"name" : "hl",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/Cameron/Documents/Repos/Apartment-Codebase/out/build/x64-Debug",
+		"source" : "C:/Users/Cameron/Documents/Repos/Apartment-Codebase"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 10
+	}
+}

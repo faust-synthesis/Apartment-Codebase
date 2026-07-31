@@ -1,0 +1,9 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Users/Cameron/Documents/Repos/Apartment-Codebase/out/build/x64-Debug/cmake_install.cmake",
+		"C:/Users/Cameron/Documents/Repos/Apartment-Codebase/out/build/x64-Debug/cl_dll/cmake_install.cmake",
+		"C:/Users/Cameron/Documents/Repos/Apartment-Codebase/out/build/x64-Debug/dlls/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
