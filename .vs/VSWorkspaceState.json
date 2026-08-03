@@ -7,9 +7,10 @@
   },
   "ExpandedNodes": [
     "",
+    "\\dlls",
     "\\projects",
     "\\projects\\vs2019"
   ],
-  "SelectedNode": "\\projects\\vs2019\\projects.sln",
+  "SelectedNode": "\\dlls\\sledgehammer.cpp",
   "PreviewInSolutionExplorer": false
 }
