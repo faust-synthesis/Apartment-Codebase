@@ -73,7 +73,7 @@ bool CSledgehammer::GetItemInfo(ItemInfo* p)
 
 bool CSledgehammer::Deploy()
 {
-	return DefaultDeploy("models/v_sledgehammer.mdl", "models/p_sledgehammer.mdl", SLEDGEHAMMER_DRAW, "crowbar");
+	return DefaultDeploy("models/v_sledgehammer.mdl", "models/p_sledgehammer.mdl", SLEDGEHAMMER_DRAW, "sledgehammer");
 }
 
 void CSledgehammer::Holster()
@@ -224,18 +224,10 @@ bool CSledgehammer::Swing(bool fFirst)
 		ClearMultiDamage();
 
 		// Kamel here, need to get rid of all this shit later and just make it deal flat damage
+		// Kamel here again, done!! I still need to add plrDmgSledgehammer
 		// JoshA: Changed from < -> <= to fix the full swing logic since client weapon prediction.
 		// -1.0f + 1.0f = 0.0f. UTIL_WeaponTimeBase is always 0 with client weapon prediction (0 time base vs curtime base)
-		if ((m_flNextPrimaryAttack + 1.0f <= UTIL_WeaponTimeBase()) || g_pGameRules->IsMultiplayer())
-		{
-			// first swing does full damage
-			pEntity->TraceAttack(m_pPlayer->pev, gSkillData.plrDmgCrowbar, gpGlobals->v_forward, &tr, DMG_CRUSH);
-		}
-		else
-		{
-			// subsequent swings do half
-			pEntity->TraceAttack(m_pPlayer->pev, gSkillData.plrDmgCrowbar / 2, gpGlobals->v_forward, &tr, DMG_CRUSH);
-		}
+		pEntity->TraceAttack(m_pPlayer->pev, gSkillData.plrDmgCrowbar*24, gpGlobals->v_forward, &tr, DMG_CRUSH);
 		ApplyMultiDamage(m_pPlayer->pev, m_pPlayer->pev);
 
 #endif
