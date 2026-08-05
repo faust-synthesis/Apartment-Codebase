@@ -140,7 +140,7 @@ void CSledgehammer::PrimaryAttack()
 
 void CSledgehammer::Smack()
 {
-	DecalGunshot(&m_trHit, BULLET_PLAYER_357);
+	DecalGunshot(&m_trHit, BULLET_PLAYER_CROWBAR);
 }
 
 
