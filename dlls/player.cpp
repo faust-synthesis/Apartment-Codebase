@@ -47,8 +47,6 @@
 extern void CopyToBodyQue(entvars_t* pev);
 extern edict_t* EntSelectSpawnPoint(CBaseEntity* pPlayer);
 
-extern bool IsBustingGame();
-
 #define TRAIN_ACTIVE 0x80
 #define TRAIN_NEW 0xc0
 #define TRAIN_OFF 0x00
@@ -702,64 +700,25 @@ void CBasePlayer::PackDeadPlayerItems()
 	iPA = 0;
 	iPW = 0;
 
-	if (IsBustingGame())
+	bool bPackItems = true;
+
+	if (bPackItems)
 	{
-		if (HasNamedPlayerItem("weapon_egon"))
+		// pack the ammo
+		while (iPackAmmo[iPA] != -1)
 		{
-			for (i = 0; i < MAX_ITEM_TYPES; i++)
-			{
-				CBasePlayerItem* pItem = m_rgpPlayerItems[i];
-
-				if (pItem)
-				{
-					if (!strcmp("weapon_egon", STRING(pItem->pev->classname)))
-					{
-						pWeaponBox->PackWeapon(pItem);
-
-						SET_MODEL(ENT(pWeaponBox->pev), "models/w_egon.mdl");
-
-						pWeaponBox->pev->velocity = Vector(0, 0, 0);
-						pWeaponBox->pev->renderfx = kRenderFxGlowShell;
-						pWeaponBox->pev->renderamt = 25;
-						pWeaponBox->pev->rendercolor = Vector(0, 75, 250);
-
-						break;
-					}
-				}
-			}
-		}
-	}
-	else
-	{
-		bool bPackItems = true;
-
-		if (iAmmoRules == GR_PLR_DROP_AMMO_ACTIVE && iWeaponRules == GR_PLR_DROP_GUN_ACTIVE)
-		{
-			if (rgpPackWeapons[0] && FClassnameIs(rgpPackWeapons[0]->pev, "weapon_satchel") && (iPackAmmo[0] == -1 || (m_rgAmmo[iPackAmmo[0]] == 0)))
-			{
-				bPackItems = false;
-			}
+			pWeaponBox->PackAmmo(MAKE_STRING(CBasePlayerItem::AmmoInfoArray[iPackAmmo[iPA]].pszName), m_rgAmmo[iPackAmmo[iPA]]);
+			iPA++;
 		}
 
-		if (bPackItems)
+		// now pack all of the items in the lists
+		while (rgpPackWeapons[iPW])
 		{
-			// pack the ammo
-			while (iPackAmmo[iPA] != -1)
-			{
-				pWeaponBox->PackAmmo(MAKE_STRING(CBasePlayerItem::AmmoInfoArray[iPackAmmo[iPA]].pszName), m_rgAmmo[iPackAmmo[iPA]]);
-				iPA++;
-			}
-
-			// now pack all of the items in the lists
-			while (rgpPackWeapons[iPW])
-			{
-				// weapon unhooked from the player. Pack it into der box.
-				pWeaponBox->PackWeapon(rgpPackWeapons[iPW]);
-
+			// weapon unhooked from the player. Pack it into der box.
+			pWeaponBox->PackWeapon(rgpPackWeapons[iPW]);
 				iPW++;
-			}
 		}
-
+		
 		pWeaponBox->pev->velocity = pev->velocity * 1.2; // weaponbox has player's velocity, then some.
 	}
 
@@ -1087,14 +1046,8 @@ all the ammo we have into the ammo vars.
 */
 void CBasePlayer::TabulateAmmo()
 {
+	ammo_50cal = AmmoInventory(GetAmmoIndex("50cal"));
 	ammo_9mm = AmmoInventory(GetAmmoIndex("9mm"));
-	ammo_357 = AmmoInventory(GetAmmoIndex("357"));
-	ammo_argrens = AmmoInventory(GetAmmoIndex("ARgrenades"));
-	ammo_bolts = AmmoInventory(GetAmmoIndex("bolts"));
-	ammo_buckshot = AmmoInventory(GetAmmoIndex("buckshot"));
-	ammo_rockets = AmmoInventory(GetAmmoIndex("rockets"));
-	ammo_uranium = AmmoInventory(GetAmmoIndex("uranium"));
-	ammo_hornets = AmmoInventory(GetAmmoIndex("Hornets"));
 }
 
 
@@ -2334,8 +2287,8 @@ void CBasePlayer::CheckSuitUpdate()
 	int isearch = m_iSuitPlayNext;
 
 	// Ignore suit updates if no suit
-	if (!HasSuit())
-		return;
+	//if (!HasSuit())
+		//return;
 
 	// if in range of radiation source, ping geiger counter
 	UpdateGeigerCounter();
@@ -2398,8 +2351,8 @@ void CBasePlayer::SetSuitUpdate(const char* name, bool fgroup, int iNoRepeatTime
 
 
 	// Ignore suit updates if no suit
-	if (!HasSuit())
-		return;
+	//if (!HasSuit())
+		//return;
 
 	if (g_pGameRules->IsMultiplayer())
 	{
@@ -3437,7 +3390,7 @@ void CBasePlayer::FlashlightTurnOn()
 		return;
 	}
 
-	if (HasSuit())
+	if (true) //used to be HasSuit()
 	{
 		EMIT_SOUND_DYN(ENT(pev), CHAN_WEAPON, SOUND_FLASHLIGHT_ON, 1.0, ATTN_NORM, 0, PITCH_NORM);
 		SetBits(pev->effects, EF_DIMLIGHT);
@@ -3609,30 +3562,11 @@ void CBasePlayer::CheatImpulseCommands(int iImpulse)
 
 	case 101:
 		gEvilImpulse101 = true;
-		GiveNamedItem("item_suit");
-		GiveNamedItem("item_battery");
-		GiveNamedItem("weapon_crowbar");
-		GiveNamedItem("weapon_9mmhandgun");
+		GiveNamedItem("weapon_sledgehammer");
+		GiveNamedItem("weapon_mp5");
 		GiveNamedItem("ammo_9mmclip");
-		GiveNamedItem("weapon_shotgun");
-		GiveNamedItem("ammo_buckshot");
-		GiveNamedItem("weapon_9mmAR");
-		GiveNamedItem("ammo_9mmAR");
-		GiveNamedItem("ammo_ARgrenades");
-		GiveNamedItem("weapon_handgrenade");
-		GiveNamedItem("weapon_tripmine");
-		GiveNamedItem("weapon_357");
-		GiveNamedItem("ammo_357");
-		GiveNamedItem("weapon_crossbow");
-		GiveNamedItem("ammo_crossbow");
-		GiveNamedItem("weapon_egon");
-		GiveNamedItem("weapon_gauss");
-		GiveNamedItem("ammo_gaussclip");
-		GiveNamedItem("weapon_rpg");
-		GiveNamedItem("ammo_rpgclip");
-		GiveNamedItem("weapon_satchel");
-		GiveNamedItem("weapon_snark");
-		GiveNamedItem("weapon_hornetgun");
+		GiveNamedItem("weapon_50cal");
+		GiveNamedItem("ammo_50cal");
 
 		gEvilImpulse101 = false;
 		break;

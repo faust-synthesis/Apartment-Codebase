@@ -1779,10 +1779,6 @@ int GetWeaponData(struct edict_s* player, struct weapon_data_s* info)
 						item->m_fInReload = static_cast<int>(gun->m_fInReload);
 						item->m_fInSpecialReload = gun->m_fInSpecialReload;
 						item->fuser1 = V_max(gun->pev->fuser1, -0.001f);
-						item->fuser2 = gun->m_flStartThrow;
-						item->fuser3 = gun->m_flReleaseThrow;
-						item->iuser1 = gun->m_chargeReady;
-						item->iuser2 = gun->m_fInAttack;
 						item->iuser3 = gun->m_fireState;
 
 						gun->GetWeaponData(*item);
@@ -1877,14 +1873,8 @@ void UpdateClientData(const edict_t* ent, int sendweapons, struct clientdata_s* 
 			cd->m_flNextAttack = pl->m_flNextAttack;
 			cd->fuser2 = pl->m_flNextAmmoBurn;
 			cd->fuser3 = pl->m_flAmmoStartCharge;
-			cd->vuser1.x = pl->ammo_9mm;
-			cd->vuser1.y = pl->ammo_357;
-			cd->vuser1.z = pl->ammo_argrens;
-			cd->ammo_nails = pl->ammo_bolts;
-			cd->ammo_shells = pl->ammo_buckshot;
-			cd->ammo_rockets = pl->ammo_rockets;
-			cd->ammo_cells = pl->ammo_uranium;
-			cd->vuser2.x = pl->ammo_hornets;
+			cd->vuser1.x = pl->ammo_50cal;
+			cd->vuser1.y = pl->ammo_9mm;
 
 
 			if (pl->m_pActiveItem)
@@ -1902,12 +1892,6 @@ void UpdateClientData(const edict_t* ent, int sendweapons, struct clientdata_s* 
 					cd->vuser4.x = gun->m_iPrimaryAmmoType;
 					cd->vuser4.y = pl->m_rgAmmo[gun->m_iPrimaryAmmoType];
 					cd->vuser4.z = pl->m_rgAmmo[gun->m_iSecondaryAmmoType];
-
-					if (pl->m_pActiveItem->m_iId == WEAPON_RPG)
-					{
-						cd->vuser2.y = static_cast<vec_t>(((CRpg*)pl->m_pActiveItem)->m_fSpotActive);
-						cd->vuser2.z = ((CRpg*)pl->m_pActiveItem)->m_cActiveRockets;
-					}
 				}
 			}
 		}

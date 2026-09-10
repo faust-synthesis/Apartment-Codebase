@@ -85,7 +85,7 @@ bool CHudBattery::Draw(float flTime)
 
 	UnpackRGB(r, g, b, RGB_YELLOWISH);
 
-	if (!gHUD.HasSuit())
+	if (gHUD.HasSuit())
 		return true;
 
 	// Has health changed? Flash the health #

@@ -24,8 +24,8 @@
 #include "particleman.h"
 extern IParticleMan* g_pParticleMan;
 
-extern BEAM* pBeam;
-extern BEAM* pBeam2;
+//extern BEAM* pBeam;
+//extern BEAM* pBeam2;
 
 
 /// USER-DEFINED SERVER MESSAGE HANDLERS
@@ -81,8 +81,8 @@ void CHud::MsgFunc_InitHUD(const char* pszName, int iSize, void* pbuf)
 		g_pParticleMan->ResetParticles();
 
 	//Probably not a good place to put this.
-	pBeam = pBeam2 = NULL;
-}
+	//pBeam = pBeam2 = NULL;
+} 
 
 
 bool CHud::MsgFunc_GameMode(const char* pszName, int iSize, void* pbuf)

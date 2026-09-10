@@ -51,7 +51,7 @@ int g_fGruntQuestion; // true if an idle grunt asked a question. Cleared when so
 #define GRUNT_VOL 0.35		 // volume of grunt sounds
 #define GRUNT_ATTN ATTN_NORM // attenutation of grunt sentences
 #define HGRUNT_LIMP_HEALTH 20
-#define HGRUNT_DMG_HEADSHOT (DMG_BULLET | DMG_CLUB) // damage types that can kill a grunt with a single headshot.
+#define HGRUNT_DMG_HEADSHOT (DMG_BULLET | DMG_CRUSH) // damage types that can kill a grunt with a single headshot.
 #define HGRUNT_NUM_HEADS 2							// how many grunt heads are there?
 #define HGRUNT_MINIMUM_HEADSHOT_DAMAGE 15			// must do at least this much damage in one shot to head to score a headshot kill
 #define HGRUNT_SENTENCE_VOLUME (float)0.35			// volume of grunt sentences
@@ -796,7 +796,7 @@ void CHGrunt::Shoot()
 
 	Vector vecShellVelocity = gpGlobals->v_right * RANDOM_FLOAT(40, 90) + gpGlobals->v_up * RANDOM_FLOAT(75, 200) + gpGlobals->v_forward * RANDOM_FLOAT(-40, 40);
 	EjectBrass(vecShootOrigin - vecShootDir * 24, vecShellVelocity, pev->angles.y, m_iBrassShell, TE_BOUNCE_SHELL);
-	FireBullets(1, vecShootOrigin, vecShootDir, VECTOR_CONE_10DEGREES, 2048, BULLET_MONSTER_MP5); // shoot +-5 degrees
+	FireBullets(1, vecShootOrigin, vecShootDir, VECTOR_CONE_10DEGREES, 2048, BULLET_PLAYER_MP5); // shoot +-5 degrees
 
 	pev->effects |= EF_MUZZLEFLASH;
 
@@ -823,7 +823,7 @@ void CHGrunt::Shotgun()
 
 	Vector vecShellVelocity = gpGlobals->v_right * RANDOM_FLOAT(40, 90) + gpGlobals->v_up * RANDOM_FLOAT(75, 200) + gpGlobals->v_forward * RANDOM_FLOAT(-40, 40);
 	EjectBrass(vecShootOrigin - vecShootDir * 24, vecShellVelocity, pev->angles.y, m_iShotgunShell, TE_BOUNCE_SHOTSHELL);
-	FireBullets(gSkillData.hgruntShotgunPellets, vecShootOrigin, vecShootDir, VECTOR_CONE_15DEGREES, 2048, BULLET_PLAYER_BUCKSHOT, 0); // shoot +-7.5 degrees
+	//FireBullets(gSkillData.hgruntShotgunPellets, vecShootOrigin, vecShootDir, VECTOR_CONE_15DEGREES, 2048, BULLET_PLAYER_BUCKSHOT, 0); // shoot +-7.5 degrees
 
 	pev->effects |= EF_MUZZLEFLASH;
 
@@ -881,32 +881,19 @@ void CHGrunt::HandleAnimEvent(MonsterEvent_t* pEvent)
 
 	case HGRUNT_AE_GREN_TOSS:
 	{
-		UTIL_MakeVectors(pev->angles);
-		// CGrenade::ShootTimed( pev, pev->origin + gpGlobals->v_forward * 34 + Vector (0, 0, 32), m_vecTossVelocity, 3.5 );
-		CGrenade::ShootTimed(pev, GetGunPosition(), m_vecTossVelocity, 3.5);
-
-		m_fThrowGrenade = false;
-		m_flNextGrenadeCheck = gpGlobals->time + 6; // wait six seconds before even looking again to see if a grenade can be thrown.
-													// !!!LATER - when in a group, only try to throw grenade if ordered.
+		break;
 	}
 	break;
 
 	case HGRUNT_AE_GREN_LAUNCH:
 	{
-		EMIT_SOUND(ENT(pev), CHAN_WEAPON, "weapons/glauncher.wav", 0.8, ATTN_NORM);
-		CGrenade::ShootContact(pev, GetGunPosition(), m_vecTossVelocity);
-		m_fThrowGrenade = false;
-		if (g_iSkillLevel == SKILL_HARD)
-			m_flNextGrenadeCheck = gpGlobals->time + RANDOM_FLOAT(2, 5); // wait a random amount of time before shooting again
-		else
-			m_flNextGrenadeCheck = gpGlobals->time + 6; // wait six seconds before even looking again to see if a grenade can be thrown.
+		break;
 	}
 	break;
 
 	case HGRUNT_AE_GREN_DROP:
 	{
-		UTIL_MakeVectors(pev->angles);
-		CGrenade::ShootTimed(pev, pev->origin + gpGlobals->v_forward * 17 - gpGlobals->v_right * 27 + gpGlobals->v_up * 6, g_vecZero, 3);
+		break;
 	}
 	break;
 
@@ -2376,12 +2363,12 @@ void CHGruntRepel::RepelUse(CBaseEntity* pActivator, CBaseEntity* pCaller, USE_T
 	// UNDONE: position?
 	pGrunt->m_vecLastPosition = tr.vecEndPos;
 
-	CBeam* pBeam = CBeam::BeamCreate("sprites/rope.spr", 10);
+	/*CBeam* pBeam = CBeam::BeamCreate("sprites/rope.spr", 10);
 	pBeam->PointEntInit(pev->origin + Vector(0, 0, 112), pGrunt->entindex());
 	pBeam->SetFlags(BEAM_FSOLID);
 	pBeam->SetColor(255, 255, 255);
 	pBeam->SetThink(&CBeam::SUB_Remove);
-	pBeam->pev->nextthink = gpGlobals->time + -4096.0 * tr.flFraction / pGrunt->pev->velocity.z + 0.5;
+	pBeam->pev->nextthink = gpGlobals->time + -4096.0 * tr.flFraction / pGrunt->pev->velocity.z + 0.5;*/
 
 	UTIL_Remove(this);
 }

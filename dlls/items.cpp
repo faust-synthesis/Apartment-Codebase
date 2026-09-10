@@ -166,6 +166,7 @@ void CItem::Materialize()
 	SetTouch(&CItem::ItemTouch);
 }
 
+//TODO: Get rid of this dumb shit
 #define SF_SUIT_SHORTLOGON 0x0001
 
 class CItemSuit : public CItem
@@ -298,6 +299,7 @@ class CItemSecurity : public CItem
 	}
 };
 
+// Don't need this either!
 LINK_ENTITY_TO_CLASS(item_security, CItemSecurity);
 
 class CItemLongJump : public CItem

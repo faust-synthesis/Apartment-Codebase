@@ -82,16 +82,6 @@ void CBaseToggle::PlaySentenceCore(const char* pszSentence, float duration, floa
 void CBaseToggle::PlayScriptedSentence(const char* pszSentence, float duration, float volume, float attenuation, bool bConcurrent, CBaseEntity* pListener) {}
 void CBaseToggle::SentenceStop() {}
 
-// CGrenade Stubs
-void CGrenade::BounceSound() {}
-void CGrenade::Explode(Vector, Vector) {}
-void CGrenade::Explode(TraceResult*, int) {}
-void CGrenade::Killed(entvars_t*, int) {}
-void CGrenade::Spawn() {}
-CGrenade* CGrenade::ShootTimed(entvars_t* pevOwner, Vector vecStart, Vector vecVelocity, float time) { return 0; }
-CGrenade* CGrenade::ShootContact(entvars_t* pevOwner, Vector vecStart, Vector vecVelocity) { return 0; }
-void CGrenade::DetonateUse(CBaseEntity* pActivator, CBaseEntity* pCaller, USE_TYPE useType, float value) {}
-
 void UTIL_Remove(CBaseEntity* pEntity) {}
 void UTIL_SetSize(entvars_t* pev, const Vector& vecMin, const Vector& vecMax) {}
 CBaseEntity* UTIL_FindEntityInSphere(CBaseEntity* pStartEntity, const Vector& vecCenter, float flRadius) { return 0; }

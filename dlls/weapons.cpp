@@ -35,9 +35,6 @@
 
 #define TRACER_FREQ 4 // Tracers fire every fourth bullet
 
-extern bool IsBustingGame();
-extern bool IsPlayerBusting(CBaseEntity* pPlayer);
-
 //=========================================================
 // MaxAmmoCarry - pass in a name and this function will tell
 // you the maximum amount of that type of ammunition that a
@@ -152,23 +149,15 @@ void DecalGunshot(TraceResult* pTrace, int iBulletType)
 
 		switch (iBulletType)
 		{
-		case BULLET_PLAYER_9MM:
-		case BULLET_MONSTER_9MM:
 		case BULLET_PLAYER_MP5:
-		case BULLET_MONSTER_MP5:
-		case BULLET_PLAYER_BUCKSHOT:
-		case BULLET_PLAYER_357:
+		case BULLET_PLAYER_50:
 		default:
 			// smoke and decal
 			UTIL_GunshotDecalTrace(pTrace, DamageDecal(pEntity, DMG_BULLET));
 			break;
-		case BULLET_MONSTER_12MM:
-			// smoke and decal
-			UTIL_GunshotDecalTrace(pTrace, DamageDecal(pEntity, DMG_BULLET));
-			break;
-		case BULLET_PLAYER_CROWBAR:
+		case BULLET_PLAYER_SLEDGEHAMMER:
 			// wall decal
-			UTIL_DecalTrace(pTrace, DamageDecal(pEntity, DMG_CLUB));
+			UTIL_DecalTrace(pTrace, DamageDecal(pEntity, DMG_CRUSH));
 			break;
 		}
 	}
@@ -268,61 +257,17 @@ void W_Precache()
 	// custom items...
 
 	// common world objects
-	UTIL_PrecacheOther("item_suit");
-	UTIL_PrecacheOther("item_battery");
-	UTIL_PrecacheOther("item_antidote");
-	UTIL_PrecacheOther("item_security");
-	UTIL_PrecacheOther("item_longjump");
 
-	// shotgun
-	UTIL_PrecacheOtherWeapon("weapon_shotgun");
-	UTIL_PrecacheOther("ammo_buckshot");
-
-	// crowbar
-	UTIL_PrecacheOtherWeapon("weapon_crowbar");
-
-	// glock
-	UTIL_PrecacheOtherWeapon("weapon_9mmhandgun");
-	UTIL_PrecacheOther("ammo_9mmclip");
+	// sledgehammer
+	UTIL_PrecacheOtherWeapon("weapon_sledgehammer");
 
 	// mp5
-	UTIL_PrecacheOtherWeapon("weapon_9mmAR");
-	UTIL_PrecacheOther("ammo_9mmAR");
-	UTIL_PrecacheOther("ammo_ARgrenades");
+	UTIL_PrecacheOtherWeapon("weapon_mp5");
+	UTIL_PrecacheOther("ammo_9mm");
 
-	// python
-	UTIL_PrecacheOtherWeapon("weapon_357");
-	UTIL_PrecacheOther("ammo_357");
-
-	// gauss
-	UTIL_PrecacheOtherWeapon("weapon_gauss");
-	UTIL_PrecacheOther("ammo_gaussclip");
-
-	// rpg
-	UTIL_PrecacheOtherWeapon("weapon_rpg");
-	UTIL_PrecacheOther("ammo_rpgclip");
-
-	// crossbow
-	UTIL_PrecacheOtherWeapon("weapon_crossbow");
-	UTIL_PrecacheOther("ammo_crossbow");
-
-	// egon
-	UTIL_PrecacheOtherWeapon("weapon_egon");
-
-	// tripmine
-	UTIL_PrecacheOtherWeapon("weapon_tripmine");
-
-	// satchel charge
-	UTIL_PrecacheOtherWeapon("weapon_satchel");
-
-	// hand grenade
-	UTIL_PrecacheOtherWeapon("weapon_handgrenade");
-
-	// squeak grenade
-	UTIL_PrecacheOtherWeapon("weapon_snark");
-
-	// hornetgun
-	UTIL_PrecacheOtherWeapon("weapon_hornetgun");
+	// 50cal
+	UTIL_PrecacheOtherWeapon("weapon_fiftycal");
+	UTIL_PrecacheOther("ammo_50cal");
 
 	if (g_pGameRules->IsDeathmatch())
 	{
@@ -450,15 +395,6 @@ void CBasePlayerItem::FallThink()
 	{
 		SetThink(NULL);
 	}
-
-	// This weapon is an egon, it has no owner and we're in busting mode, so just remove it when it hits the ground
-	if (IsBustingGame() && FNullEnt(pev->owner))
-	{
-		if (!strcmp("weapon_egon", STRING(pev->classname)))
-		{
-			UTIL_Remove(this);
-		}
-	}
 }
 
 //=========================================================
@@ -549,9 +485,6 @@ void CBasePlayerItem::DefaultTouch(CBaseEntity* pOther)
 {
 	// if it's not a player, ignore
 	if (!pOther->IsPlayer())
-		return;
-
-	if (IsPlayerBusting(pOther))
 		return;
 
 	CBasePlayer* pPlayer = (CBasePlayer*)pOther;
@@ -1384,7 +1317,6 @@ void CWeaponBox::SetObjectCollisionBox()
 	pev->absmax = pev->origin + Vector(16, 16, 16);
 }
 
-
 void CBasePlayerWeapon::PrintState()
 {
 	ALERT(at_console, "primary:  %f\n", m_flNextPrimaryAttack);
@@ -1399,63 +1331,3 @@ void CBasePlayerWeapon::PrintState()
 
 	ALERT(at_console, "m_iclip:  %i\n", m_iClip);
 }
-
-
-TYPEDESCRIPTION CRpg::m_SaveData[] =
-	{
-		DEFINE_FIELD(CRpg, m_fSpotActive, FIELD_BOOLEAN),
-		DEFINE_FIELD(CRpg, m_cActiveRockets, FIELD_INTEGER),
-};
-IMPLEMENT_SAVERESTORE(CRpg, CBasePlayerWeapon);
-
-TYPEDESCRIPTION CRpgRocket::m_SaveData[] =
-	{
-		DEFINE_FIELD(CRpgRocket, m_flIgniteTime, FIELD_TIME),
-		DEFINE_FIELD(CRpgRocket, m_hLauncher, FIELD_EHANDLE),
-};
-IMPLEMENT_SAVERESTORE(CRpgRocket, CGrenade);
-
-TYPEDESCRIPTION CShotgun::m_SaveData[] =
-	{
-		DEFINE_FIELD(CShotgun, m_flNextReload, FIELD_TIME),
-		DEFINE_FIELD(CShotgun, m_fInSpecialReload, FIELD_INTEGER),
-		DEFINE_FIELD(CShotgun, m_flNextReload, FIELD_TIME),
-		// DEFINE_FIELD( CShotgun, m_iShell, FIELD_INTEGER ),
-		DEFINE_FIELD(CShotgun, m_flPumpTime, FIELD_TIME),
-};
-IMPLEMENT_SAVERESTORE(CShotgun, CBasePlayerWeapon);
-
-TYPEDESCRIPTION CGauss::m_SaveData[] =
-	{
-		DEFINE_FIELD(CGauss, m_fInAttack, FIELD_INTEGER),
-		//	DEFINE_FIELD( CGauss, m_flStartCharge, FIELD_TIME ),
-		//	DEFINE_FIELD( CGauss, m_flPlayAftershock, FIELD_TIME ),
-		//	DEFINE_FIELD( CGauss, m_flNextAmmoBurn, FIELD_TIME ),
-		DEFINE_FIELD(CGauss, m_fPrimaryFire, FIELD_BOOLEAN),
-};
-IMPLEMENT_SAVERESTORE(CGauss, CBasePlayerWeapon);
-
-TYPEDESCRIPTION CEgon::m_SaveData[] =
-	{
-		//	DEFINE_FIELD( CEgon, m_pBeam, FIELD_CLASSPTR ),
-		//	DEFINE_FIELD( CEgon, m_pNoise, FIELD_CLASSPTR ),
-		//	DEFINE_FIELD( CEgon, m_pSprite, FIELD_CLASSPTR ),
-		DEFINE_FIELD(CEgon, m_shootTime, FIELD_TIME),
-		DEFINE_FIELD(CEgon, m_fireState, FIELD_INTEGER),
-		DEFINE_FIELD(CEgon, m_fireMode, FIELD_INTEGER),
-		DEFINE_FIELD(CEgon, m_shakeTime, FIELD_TIME),
-		DEFINE_FIELD(CEgon, m_flAmmoUseTime, FIELD_TIME),
-};
-IMPLEMENT_SAVERESTORE(CEgon, CBasePlayerWeapon);
-
-TYPEDESCRIPTION CHgun::m_SaveData[] =
-	{
-		DEFINE_FIELD(CHgun, m_flRechargeTime, FIELD_TIME),
-};
-IMPLEMENT_SAVERESTORE(CHgun, CBasePlayerWeapon);
-
-TYPEDESCRIPTION CSatchel::m_SaveData[] =
-	{
-		DEFINE_FIELD(CSatchel, m_chargeReady, FIELD_INTEGER),
-};
-IMPLEMENT_SAVERESTORE(CSatchel, CBasePlayerWeapon);

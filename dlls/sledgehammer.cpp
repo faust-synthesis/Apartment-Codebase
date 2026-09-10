@@ -22,9 +22,10 @@
 #include "gamerules.h"
 
 
+// Kamel here, this refers to audio volume and not a spacial volume
 #define SLEDGEHAMMER_BODYHIT_VOLUME 128
 #define SLEDGEHAMMER_WALLHIT_VOLUME 512
-// Kamel here, this refers to audio volume and not a spacial volume
+#define SLEDGEHAMMER_RANGE 48
 
 LINK_ENTITY_TO_CLASS(weapon_sledgehammer, CSledgehammer);
 
@@ -140,7 +141,7 @@ void CSledgehammer::PrimaryAttack()
 
 void CSledgehammer::Smack()
 {
-	DecalGunshot(&m_trHit, BULLET_PLAYER_CROWBAR);
+	DecalGunshot(&m_trHit, BULLET_PLAYER_SLEDGEHAMMER);
 }
 
 
@@ -158,7 +159,7 @@ bool CSledgehammer::Swing(bool fFirst)
 
 	UTIL_MakeVectors(m_pPlayer->pev->v_angle);
 	Vector vecSrc = m_pPlayer->GetGunPosition();
-	Vector vecEnd = vecSrc + gpGlobals->v_forward * 128; //32
+	Vector vecEnd = vecSrc + gpGlobals->v_forward * SLEDGEHAMMER_RANGE; // 32
 
 	UTIL_TraceLine(vecSrc, vecEnd, dont_ignore_monsters, ENT(m_pPlayer->pev), &tr);
 
@@ -273,7 +274,7 @@ bool CSledgehammer::Swing(bool fFirst)
 
 		if (fHitWorld)
 		{
-			float fvolbar = TEXTURETYPE_PlaySound(&tr, vecSrc, vecSrc + (vecEnd - vecSrc) * 2, BULLET_PLAYER_CROWBAR);
+			float fvolbar = TEXTURETYPE_PlaySound(&tr, vecSrc, vecSrc + (vecEnd - vecSrc) * 2, BULLET_PLAYER_SLEDGEHAMMER);
 
 			if (g_pGameRules->IsMultiplayer())
 			{

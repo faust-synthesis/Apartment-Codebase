@@ -294,60 +294,19 @@ void CGameRules::RefreshSkillData()
 
 	// PLAYER WEAPONS
 
-	// Crowbar whack
-	gSkillData.plrDmgCrowbar = GetSkillCvar("sk_plr_crowbar");
-
 	// Sledgehammer whack
 	gSkillData.plrDmgSledgehammer = GetSkillCvar("sk_plr_sledgehammer");
 
-	// Glock Round
-	gSkillData.plrDmg9MM = GetSkillCvar("sk_plr_9mm_bullet");
-
 	// 357 Round
-	gSkillData.plrDmg357 = GetSkillCvar("sk_plr_357_bullet");
+	gSkillData.plrDmg50Cal = GetSkillCvar("sk_plr_50cal_bullet");
 
 	// MP5 Round
-	gSkillData.plrDmgMP5 = GetSkillCvar("sk_plr_9mmAR_bullet");
-
-	// M203 grenade
-	gSkillData.plrDmgM203Grenade = GetSkillCvar("sk_plr_9mmAR_grenade");
-
-	// Shotgun buckshot
-	gSkillData.plrDmgBuckshot = GetSkillCvar("sk_plr_buckshot");
-
-	// Crossbow
-	gSkillData.plrDmgCrossbowClient = GetSkillCvar("sk_plr_xbow_bolt_client");
-	gSkillData.plrDmgCrossbowMonster = GetSkillCvar("sk_plr_xbow_bolt_monster");
-
-	// RPG
-	gSkillData.plrDmgRPG = GetSkillCvar("sk_plr_rpg");
-
-	// Gauss gun
-	gSkillData.plrDmgGauss = GetSkillCvar("sk_plr_gauss");
-
-	// Egon Gun
-	gSkillData.plrDmgEgonNarrow = GetSkillCvar("sk_plr_egon_narrow");
-	gSkillData.plrDmgEgonWide = GetSkillCvar("sk_plr_egon_wide");
-
-	// Hand Grendade
-	gSkillData.plrDmgHandGrenade = GetSkillCvar("sk_plr_hand_grenade");
-
-	// Satchel Charge
-	gSkillData.plrDmgSatchel = GetSkillCvar("sk_plr_satchel");
-
-	// Tripmine
-	gSkillData.plrDmgTripmine = GetSkillCvar("sk_plr_tripmine");
+	gSkillData.plrDmgMP5 = GetSkillCvar("sk_plr_9mm_bullet");
 
 	// MONSTER WEAPONS
 	gSkillData.monDmg12MM = GetSkillCvar("sk_12mm_bullet");
 	gSkillData.monDmgMP5 = GetSkillCvar("sk_9mmAR_bullet");
 	gSkillData.monDmg9MM = GetSkillCvar("sk_9mm_bullet");
-
-	// MONSTER HORNET
-	gSkillData.monDmgHornet = GetSkillCvar("sk_hornet_dmg");
-
-	// PLAYER HORNET
-	gSkillData.plrDmgHornet = GetSkillCvar("sk_plr_hornet_dmg");
 
 
 	// HEALTH/CHARGE
@@ -381,12 +340,7 @@ CGameRules* InstallGameRules()
 	SERVER_COMMAND("exec game.cfg\n");
 	SERVER_EXECUTE();
 
-	if (1 == sv_busters.value)
-	{
-		g_teamplay = false;
-		return new CMultiplayBusters;
-	}
-	else if (0 == gpGlobals->deathmatch)
+	if (0 == gpGlobals->deathmatch)
 	{
 		// generic half-life
 		g_teamplay = false;
