@@ -37,7 +37,7 @@ bool CFiftyCal::GetItemInfo(ItemInfo* p)
 	p->iMaxClip = FIFTYCAL_MAX_CLIP;
 	p->iFlags = 0;
 	p->iSlot = 1;
-	p->iPosition = 1;
+	p->iPosition = 0;
 	p->iId = m_iId = WEAPON_FIFTYCAL;
 	p->iWeight = FIFTYCAL_WEIGHT;
 
@@ -70,24 +70,12 @@ void CFiftyCal::Precache()
 	PRECACHE_SOUND("weapons/357_shot1.wav");
 	PRECACHE_SOUND("weapons/357_shot2.wav");
 
-	m_usFireFiftyCal = PRECACHE_EVENT(1, "events/python.sc");
+	m_usFireFiftyCal = PRECACHE_EVENT(1, "events/fiftycal.sc");
 }
 
 bool CFiftyCal::Deploy()
 {
-#ifdef CLIENT_DLL
-	if (bIsMultiplayer())
-#else
-	if (g_pGameRules->IsMultiplayer())
-#endif
-	{
-		// enable laser sight geometry.
-		pev->body = 1;
-	}
-	else
-	{
-		pev->body = 0;
-	}
+	pev->body = 1;
 
 	return DefaultDeploy("models/v_357.mdl", "models/p_357.mdl", FIFTYCAL_DRAW, "python", pev->body);
 }
@@ -174,7 +162,7 @@ void CFiftyCal::PrimaryAttack()
 		// HEV suit - indicate out of ammo condition
 		m_pPlayer->SetSuitUpdate("!HEV_AMO0", false, 0);
 
-	m_flNextPrimaryAttack = 0.75;
+	m_flNextPrimaryAttack = 0.25;
 	m_flTimeWeaponIdle = UTIL_SharedRandomFloat(m_pPlayer->random_seed, 10, 15);
 }
 

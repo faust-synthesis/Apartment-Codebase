@@ -446,42 +446,6 @@ void HUD_InitClientWeapons()
 
 /*
 =====================
-HUD_GetLastOrg
-
-Retruns the last position that we stored for egon beam endpoint.
-=====================
-*/
-void HUD_GetLastOrg(float* org)
-{
-	int i;
-
-	// Return last origin
-	for (i = 0; i < 3; i++)
-	{
-		org[i] = previousorigin[i];
-	}
-}
-
-/*
-=====================
-HUD_SetLastOrg
-
-Remember our exact predicted origin so we can draw the egon to the right position.
-=====================
-*/
-void HUD_SetLastOrg()
-{
-	int i;
-
-	// Offset final origin by view_offset
-	for (i = 0; i < 3; i++)
-	{
-		previousorigin[i] = g_finalstate->playerstate.origin[i] + g_finalstate->client.view_ofs[i];
-	}
-}
-
-/*
-=====================
 HUD_WeaponsPostThink
 
 Run Weapon firing code on client
@@ -678,9 +642,6 @@ void HUD_WeaponsPostThink(local_state_s* from, local_state_s* to, usercmd_t* cmd
 	//  over the wire ( fixes some animation glitches )
 	if (g_runfuncs && (HUD_GetWeaponAnim() != to->client.weaponanim))
 	{
-		//Make sure the 357 has the right body
-		g_FiftyCal.pev->body = bIsMultiplayer() ? 1 : 0;
-
 		// Force a fixed anim down to viewmodel
 		HUD_SendWeaponAnim(to->client.weaponanim, pWeapon->pev->body, true);
 	}
@@ -780,9 +741,6 @@ void HUD_WeaponsPostThink(local_state_s* from, local_state_s* to, usercmd_t* cmd
 	{
 		to->client.fuser3 = -0.001;
 	}
-
-	// Store off the last position from the predicted state.
-	HUD_SetLastOrg();
 
 	// Wipe it so we can't use it after this frame
 	g_finalstate = NULL;

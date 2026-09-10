@@ -331,6 +331,7 @@ void EV_HLDM_CheckTracer(int idx, float* vecSrc, float* end, float* forward, flo
 		switch (iBulletType)
 		{
 		case BULLET_PLAYER_MP5:
+		case BULLET_PLAYER_50:
 		default:
 			EV_CreateTracer(vecTracerSrc, end);
 			break;

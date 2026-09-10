@@ -26,10 +26,6 @@
 #include "entity_types.h"
 #include "r_efx.h"
 
-//extern BEAM* pBeam;
-//extern BEAM* pBeam2;
-void HUD_GetLastOrg(float* org);
-
 void UpdateBeams()
 {
 	Vector forward, vecSrc, vecEnd, origin, angles, right, up;
@@ -40,9 +36,6 @@ void UpdateBeams()
 
 	// Get our exact viewangles from engine
 	gEngfuncs.GetViewAngles((float*)angles);
-
-	// Determine our last predicted origin
-	HUD_GetLastOrg((float*)&origin);
 
 	AngleVectors(angles, forward, right, up);
 

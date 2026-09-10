@@ -297,19 +297,9 @@ cvar_t sk_plr_9mm_bullet2 = {"sk_plr_9mm_bullet2", "0"};
 cvar_t sk_plr_9mm_bullet3 = {"sk_plr_9mm_bullet3", "0"};
 
 // 357 Round
-cvar_t sk_plr_357_bullet1 = {"sk_plr_357_bullet1", "0"};
-cvar_t sk_plr_357_bullet2 = {"sk_plr_357_bullet2", "0"};
-cvar_t sk_plr_357_bullet3 = {"sk_plr_357_bullet3", "0"};
-
-// Tripmine
-cvar_t sk_plr_tripmine1 = {"sk_plr_tripmine1", "0"};
-cvar_t sk_plr_tripmine2 = {"sk_plr_tripmine2", "0"};
-cvar_t sk_plr_tripmine3 = {"sk_plr_tripmine3", "0"};
-
-// HORNET
-cvar_t sk_plr_hornet_dmg1 = {"sk_plr_hornet_dmg1", "0"};
-cvar_t sk_plr_hornet_dmg2 = {"sk_plr_hornet_dmg2", "0"};
-cvar_t sk_plr_hornet_dmg3 = {"sk_plr_hornet_dmg3", "0"};
+cvar_t sk_plr_357_bullet1 = {"sk_plr_50cal_bullet1", "0"};
+cvar_t sk_plr_357_bullet2 = {"sk_plr_50cal_bullet2", "0"};
+cvar_t sk_plr_357_bullet3 = {"sk_plr_50cal_bullet3", "0"};
 
 
 // WORLD WEAPONS
