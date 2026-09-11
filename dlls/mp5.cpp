@@ -24,16 +24,16 @@
 #include "UserMessages.h"
 
 LINK_ENTITY_TO_CLASS(weapon_mp5, CMP5);
-LINK_ENTITY_TO_CLASS(weapon_9mmAR, CMP5);
+LINK_ENTITY_TO_CLASS(weapon_smg, CMP5);
 
 
 //=========================================================
 //=========================================================
 void CMP5::Spawn()
 {
-	pev->classname = MAKE_STRING("weapon_9mmAR"); // hack to allow for old names
+	pev->classname = MAKE_STRING("weapon_mp5");
 	Precache();
-	SET_MODEL(ENT(pev), "models/w_9mmAR.mdl");
+	SET_MODEL(ENT(pev), "models/w_mp5.mdl");
 	m_iId = WEAPON_MP5;
 
 	m_iDefaultAmmo = gpGlobals->maxClients > 1 ? MP5_MAX_CLIP : MP5_DEFAULT_GIVE;
@@ -44,15 +44,13 @@ void CMP5::Spawn()
 
 void CMP5::Precache()
 {
-	PRECACHE_MODEL("models/v_9mmAR.mdl");
-	PRECACHE_MODEL("models/w_9mmAR.mdl");
-	PRECACHE_MODEL("models/p_9mmAR.mdl");
+	PRECACHE_MODEL("models/v_mp5.mdl");
+	PRECACHE_MODEL("models/w_mp5.mdl");
+	PRECACHE_MODEL("models/p_mp5.mdl");
 
 	m_iShell = PRECACHE_MODEL("models/shell.mdl"); // brass shellTE_MODEL
 
-	PRECACHE_MODEL("models/grenade.mdl"); // grenade
-
-	PRECACHE_MODEL("models/w_9mmARclip.mdl");
+	PRECACHE_MODEL("models/w_mp5clip.mdl");
 	PRECACHE_SOUND("items/9mmclip1.wav");
 
 	PRECACHE_SOUND("items/clipinsert1.wav");
@@ -85,7 +83,7 @@ bool CMP5::GetItemInfo(ItemInfo* p)
 
 bool CMP5::Deploy()
 {
-	return DefaultDeploy("models/v_9mmAR.mdl", "models/p_9mmAR.mdl", MP5_DEPLOY, "mp5");
+	return DefaultDeploy("models/v_mp5.mdl", "models/p_mp5.mdl", MP5_DEPLOY, "mp5");
 }
 
 
@@ -128,12 +126,12 @@ void CMP5::PrimaryAttack()
 #endif
 	{
 		// optimized multiplayer. Widened to make it easier to hit a moving player
-		vecDir = m_pPlayer->FireBulletsPlayer(1, vecSrc, vecAiming, VECTOR_CONE_6DEGREES, 8192, BULLET_PLAYER_MP5, 2, 0, m_pPlayer->pev, m_pPlayer->random_seed);
+		vecDir = m_pPlayer->FireBulletsPlayer(1, vecSrc, vecAiming, VECTOR_CONE_9DEGREES, 8192, BULLET_PLAYER_MP5, 2, 0, m_pPlayer->pev, m_pPlayer->random_seed);
 	}
 	else
 	{
 		// single player spread
-		vecDir = m_pPlayer->FireBulletsPlayer(1, vecSrc, vecAiming, VECTOR_CONE_3DEGREES, 8192, BULLET_PLAYER_MP5, 2, 0, m_pPlayer->pev, m_pPlayer->random_seed);
+		vecDir = m_pPlayer->FireBulletsPlayer(1, vecSrc, vecAiming, VECTOR_CONE_6DEGREES, 8192, BULLET_PLAYER_MP5, 2, 0, m_pPlayer->pev, m_pPlayer->random_seed);
 	}
 
 	int flags;
@@ -149,10 +147,10 @@ void CMP5::PrimaryAttack()
 		// HEV suit - indicate out of ammo condition
 		m_pPlayer->SetSuitUpdate("!HEV_AMO0", false, 0);
 
-	m_flNextPrimaryAttack = GetNextAttackDelay(0.1);
+	m_flNextPrimaryAttack = GetNextAttackDelay(0.05);
 
 	if (m_flNextPrimaryAttack < UTIL_WeaponTimeBase())
-		m_flNextPrimaryAttack = UTIL_WeaponTimeBase() + 0.1;
+		m_flNextPrimaryAttack = UTIL_WeaponTimeBase() + 0.05;
 
 	m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + UTIL_SharedRandomFloat(m_pPlayer->random_seed, 10, 15);
 }

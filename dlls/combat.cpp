@@ -1443,7 +1443,7 @@ void CBaseEntity::FireBullets(unsigned int cShots, Vector vecSrc, Vector vecDirS
 				{
 				default:
 				case BULLET_PLAYER_MP5:
-					pEntity->TraceAttack(pevAttacker, gSkillData.monDmg9MM, vecDir, &tr, DMG_BULLET);
+					pEntity->TraceAttack(pevAttacker, gSkillData.monDmgMP5, vecDir, &tr, DMG_BULLET);
 
 					TEXTURETYPE_PlaySound(&tr, vecSrc, vecEnd, iBulletType);
 					DecalGunshot(&tr, iBulletType);

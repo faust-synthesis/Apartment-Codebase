@@ -91,8 +91,6 @@ public:
 	float CoverRadius() override { return 1200; } // Need more room for cover because scientists want to get far away!
 	bool DisregardEnemy(CBaseEntity* pEnemy) { return !pEnemy->IsAlive() || (gpGlobals->time - m_fearTime) > 15; }
 
-	bool CanHeal();
-	void Heal();
 	void Scream();
 
 	// Override these to set behavior
@@ -633,7 +631,7 @@ void CScientist::HandleAnimEvent(MonsterEvent_t* pEvent)
 	switch (pEvent->event)
 	{
 	case SCIENTIST_AE_HEAL: // Heal my target (if within range)
-		Heal();
+		//Heal();
 		break;
 	case SCIENTIST_AE_NEEDLEON:
 	{
@@ -671,7 +669,7 @@ void CScientist::Spawn()
 	pev->solid = SOLID_SLIDEBOX;
 	pev->movetype = MOVETYPE_STEP;
 	m_bloodColor = BLOOD_COLOR_RED;
-	pev->health = gSkillData.scientistHealth;
+	pev->health = 50;
 	pev->view_ofs = Vector(0, 0, 50);  // position of the eyes relative to monster's origin.
 	m_flFieldOfView = VIEW_FIELD_WIDE; // NOTE: we need a wide field of view so scientists will notice player and say hello
 	m_MonsterState = MONSTERSTATE_NONE;
@@ -991,8 +989,6 @@ Schedule_t* CScientist::GetSchedule()
 				// If I'm already close enough to my target
 				if (TargetDistance() <= 128)
 				{
-					if (CanHeal()) // Heal opportunistically
-						return slHeal;
 					if (HasConditions(bits_COND_CLIENT_PUSH)) // Player wants me to move
 						return GetScheduleOfType(SCHED_MOVE_AWAY_FOLLOW);
 				}
@@ -1118,28 +1114,6 @@ MONSTERSTATE CScientist::GetIdealState()
 	return CTalkMonster::GetIdealState();
 }
 
-
-bool CScientist::CanHeal()
-{
-	if ((m_healTime > gpGlobals->time) || (m_hTargetEnt == NULL) || (m_hTargetEnt->pev->health > (m_hTargetEnt->pev->max_health * 0.5)))
-		return false;
-
-	return true;
-}
-
-void CScientist::Heal()
-{
-	if (!CanHeal())
-		return;
-
-	Vector target = m_hTargetEnt->pev->origin - pev->origin;
-	if (target.Length() > 100)
-		return;
-
-	m_hTargetEnt->TakeHealth(gSkillData.scientistHeal, DMG_GENERIC);
-	// Don't heal again for 1 minute
-	m_healTime = gpGlobals->time + 60;
-}
 
 int CScientist::FriendNumber(int arrayNumber)
 {

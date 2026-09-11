@@ -200,121 +200,36 @@ void CGameRules::RefreshSkillData()
 
 	ALERT(at_console, "\nGAME SKILL LEVEL:%d\n", iSkill);
 
-	//Agrunt
-	gSkillData.agruntHealth = GetSkillCvar("sk_agrunt_health");
-	gSkillData.agruntDmgPunch = GetSkillCvar("sk_agrunt_dmg_punch");
-
-	// Apache
-	gSkillData.apacheHealth = GetSkillCvar("sk_apache_health");
-
 	// Barney
 	gSkillData.barneyHealth = GetSkillCvar("sk_barney_health");
-
-	// Big Momma
-	gSkillData.bigmommaHealthFactor = GetSkillCvar("sk_bigmomma_health_factor");
-	gSkillData.bigmommaDmgSlash = GetSkillCvar("sk_bigmomma_dmg_slash");
-	gSkillData.bigmommaDmgBlast = GetSkillCvar("sk_bigmomma_dmg_blast");
-	gSkillData.bigmommaRadiusBlast = GetSkillCvar("sk_bigmomma_radius_blast");
-
-	// Bullsquid
-	gSkillData.bullsquidHealth = GetSkillCvar("sk_bullsquid_health");
-	gSkillData.bullsquidDmgBite = GetSkillCvar("sk_bullsquid_dmg_bite");
-	gSkillData.bullsquidDmgWhip = GetSkillCvar("sk_bullsquid_dmg_whip");
-	gSkillData.bullsquidDmgSpit = GetSkillCvar("sk_bullsquid_dmg_spit");
-
-	// Gargantua
-	gSkillData.gargantuaHealth = GetSkillCvar("sk_gargantua_health");
-	gSkillData.gargantuaDmgSlash = GetSkillCvar("sk_gargantua_dmg_slash");
-	gSkillData.gargantuaDmgFire = GetSkillCvar("sk_gargantua_dmg_fire");
-	gSkillData.gargantuaDmgStomp = GetSkillCvar("sk_gargantua_dmg_stomp");
-
-	// Hassassin
-	gSkillData.hassassinHealth = GetSkillCvar("sk_hassassin_health");
-
-	// Headcrab
-	gSkillData.headcrabHealth = GetSkillCvar("sk_headcrab_health");
-	gSkillData.headcrabDmgBite = GetSkillCvar("sk_headcrab_dmg_bite");
 
 	// Hgrunt
 	gSkillData.hgruntHealth = GetSkillCvar("sk_hgrunt_health");
 	gSkillData.hgruntDmgKick = GetSkillCvar("sk_hgrunt_kick");
 	gSkillData.hgruntShotgunPellets = GetSkillCvar("sk_hgrunt_pellets");
-	gSkillData.hgruntGrenadeSpeed = GetSkillCvar("sk_hgrunt_gspeed");
-
-	// Houndeye
-	gSkillData.houndeyeHealth = GetSkillCvar("sk_houndeye_health");
-	gSkillData.houndeyeDmgBlast = GetSkillCvar("sk_houndeye_dmg_blast");
-
-	// ISlave
-	gSkillData.slaveHealth = GetSkillCvar("sk_islave_health");
-	gSkillData.slaveDmgClaw = GetSkillCvar("sk_islave_dmg_claw");
-	gSkillData.slaveDmgClawrake = GetSkillCvar("sk_islave_dmg_clawrake");
-	gSkillData.slaveDmgZap = GetSkillCvar("sk_islave_dmg_zap");
-
-	// Icthyosaur
-	gSkillData.ichthyosaurHealth = GetSkillCvar("sk_ichthyosaur_health");
-	gSkillData.ichthyosaurDmgShake = GetSkillCvar("sk_ichthyosaur_shake");
-
-	// Leech
-	gSkillData.leechHealth = GetSkillCvar("sk_leech_health");
-
-	gSkillData.leechDmgBite = GetSkillCvar("sk_leech_dmg_bite");
-
-	// Controller
-	gSkillData.controllerHealth = GetSkillCvar("sk_controller_health");
-	gSkillData.controllerDmgZap = GetSkillCvar("sk_controller_dmgzap");
-	gSkillData.controllerSpeedBall = GetSkillCvar("sk_controller_speedball");
-	gSkillData.controllerDmgBall = GetSkillCvar("sk_controller_dmgball");
-
-	// Nihilanth
-	gSkillData.nihilanthHealth = GetSkillCvar("sk_nihilanth_health");
-	gSkillData.nihilanthZap = GetSkillCvar("sk_nihilanth_zap");
-
-	// Scientist
-	gSkillData.scientistHealth = GetSkillCvar("sk_scientist_health");
-
-	// Snark
-	gSkillData.snarkHealth = GetSkillCvar("sk_snark_health");
-	gSkillData.snarkDmgBite = GetSkillCvar("sk_snark_dmg_bite");
-	gSkillData.snarkDmgPop = GetSkillCvar("sk_snark_dmg_pop");
 
 	// Zombie
 	gSkillData.zombieHealth = GetSkillCvar("sk_zombie_health");
 	gSkillData.zombieDmgOneSlash = GetSkillCvar("sk_zombie_dmg_one_slash");
 	gSkillData.zombieDmgBothSlash = GetSkillCvar("sk_zombie_dmg_both_slash");
 
-	//Turret
-	gSkillData.turretHealth = GetSkillCvar("sk_turret_health");
-
-	// MiniTurret
-	gSkillData.miniturretHealth = GetSkillCvar("sk_miniturret_health");
-
-	// Sentry Turret
-	gSkillData.sentryHealth = GetSkillCvar("sk_sentry_health");
-
 	// PLAYER WEAPONS
 
 	// Sledgehammer whack
 	gSkillData.plrDmgSledgehammer = GetSkillCvar("sk_plr_sledgehammer");
 
-	// 357 Round
+	// 50 Caliber Round
 	gSkillData.plrDmg50Cal = GetSkillCvar("sk_plr_50cal_bullet");
 
 	// MP5 Round
 	gSkillData.plrDmgMP5 = GetSkillCvar("sk_plr_9mm_bullet");
 
 	// MONSTER WEAPONS
-	gSkillData.monDmg12MM = GetSkillCvar("sk_12mm_bullet");
-	gSkillData.monDmgMP5 = GetSkillCvar("sk_9mmAR_bullet");
-	gSkillData.monDmg9MM = GetSkillCvar("sk_9mm_bullet");
-
+	gSkillData.monDmg50Cal = GetSkillCvar("sk_9mm_bullet");
+	gSkillData.monDmgMP5 = GetSkillCvar("sk_50cal_bullet");
 
 	// HEALTH/CHARGE
-	gSkillData.suitchargerCapacity = GetSkillCvar("sk_suitcharger");
-	gSkillData.batteryCapacity = GetSkillCvar("sk_battery");
-	gSkillData.healthchargerCapacity = GetSkillCvar("sk_healthcharger");
 	gSkillData.healthkitCapacity = GetSkillCvar("sk_healthkit");
-	gSkillData.scientistHeal = GetSkillCvar("sk_scientist_heal");
 
 	// monster damage adj
 	gSkillData.monHead = GetSkillCvar("sk_monster_head");

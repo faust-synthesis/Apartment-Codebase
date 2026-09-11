@@ -23,7 +23,7 @@
 #include "UserMessages.h"
 
 LINK_ENTITY_TO_CLASS(weapon_50cal, CFiftyCal);
-LINK_ENTITY_TO_CLASS(weapon_barrett, CFiftyCal);
+LINK_ENTITY_TO_CLASS(weapon_rifle, CFiftyCal);
 LINK_ENTITY_TO_CLASS(weapon_fiftycal, CFiftyCal);
 
 
@@ -46,9 +46,10 @@ bool CFiftyCal::GetItemInfo(ItemInfo* p)
 
 void CFiftyCal::Spawn()
 {
+	pev->classname = MAKE_STRING("weapon_fiftycal");
 	Precache();
 	m_iId = WEAPON_FIFTYCAL;
-	SET_MODEL(ENT(pev), "models/w_357.mdl");
+	SET_MODEL(ENT(pev), "models/w_fiftycal.mdl");
 
 	m_iDefaultAmmo = FIFTYCAL_DEFAULT_GIVE;
 
@@ -58,9 +59,9 @@ void CFiftyCal::Spawn()
 
 void CFiftyCal::Precache()
 {
-	PRECACHE_MODEL("models/v_357.mdl");
-	PRECACHE_MODEL("models/w_357.mdl");
-	PRECACHE_MODEL("models/p_357.mdl");
+	PRECACHE_MODEL("models/v_fiftycal.mdl");
+	PRECACHE_MODEL("models/w_fiftycal.mdl");
+	PRECACHE_MODEL("models/p_fiftycal.mdl");
 
 	PRECACHE_MODEL("models/w_357ammobox.mdl");
 	PRECACHE_SOUND("items/9mmclip1.wav");
@@ -77,7 +78,7 @@ bool CFiftyCal::Deploy()
 {
 	pev->body = 1;
 
-	return DefaultDeploy("models/v_357.mdl", "models/p_357.mdl", FIFTYCAL_DRAW, "python", pev->body);
+	return DefaultDeploy("models/v_fiftycal.mdl", "models/p_fiftycal.mdl", FIFTYCAL_DRAW, "fiftycal", pev->body);
 }
 
 

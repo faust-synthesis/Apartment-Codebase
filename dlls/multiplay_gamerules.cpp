@@ -118,9 +118,6 @@ void CHalfLifeMultiplay::RefreshSkillData()
 
 	// override some values for multiplay.
 
-	// suitcharger
-	gSkillData.suitchargerCapacity = 30;
-
 	// Sledgehammer whack
 	gSkillData.plrDmgSledgehammer = 999;
 
@@ -128,7 +125,7 @@ void CHalfLifeMultiplay::RefreshSkillData()
 	gSkillData.plrDmg50Cal = 999;
 
 	// MP5 Round
-	gSkillData.plrDmgMP5 = 20;
+	gSkillData.plrDmgMP5 = 20; //5 hits to kill, like it is with zombies
 }
 
 //=========================================================

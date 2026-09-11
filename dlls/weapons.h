@@ -45,13 +45,13 @@ class CBasePlayerWeapon;
 
 //#define CROWBAR_MAX_CLIP		WEAPON_NOCLIP
 #define FIFTYCAL_MAX_CLIP 5
-#define MP5_MAX_CLIP 24
+#define MP5_MAX_CLIP 48
 #define MP5_DEFAULT_AMMO 48
 
 
 // the default amount of ammo that comes with each gun when it spawns
 #define FIFTYCAL_DEFAULT_GIVE 5
-#define MP5_DEFAULT_GIVE 48
+#define MP5_DEFAULT_GIVE 96
 
 // The amount of ammo given to a player by an ammo item.
 #define AMMO_FIFTYCALCLIP_GIVE FIFTYCAL_MAX_CLIP
