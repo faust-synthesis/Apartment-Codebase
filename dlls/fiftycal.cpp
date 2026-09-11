@@ -93,7 +93,7 @@ void CFiftyCal::Holster()
 
 	m_pPlayer->m_flNextAttack = UTIL_WeaponTimeBase() + 1.0;
 	m_flTimeWeaponIdle = UTIL_SharedRandomFloat(m_pPlayer->random_seed, 10, 15);
-	SendWeaponAnim(FIFTYCAL_HOLSTER);
+	SendWeaponAnim(FIFTYCAL_HOLSTER, 1);
 }
 
 void CFiftyCal::SecondaryAttack()
@@ -178,14 +178,7 @@ void CFiftyCal::Reload()
 		m_pPlayer->m_iFOV = 0; // 0 means reset to default fov
 	}
 
-	bool bUseScope = false;
-#ifdef CLIENT_DLL
-	bUseScope = bIsMultiplayer();
-#else
-	bUseScope = g_pGameRules->IsMultiplayer();
-#endif
-
-	DefaultReload(5, FIFTYCAL_RELOAD, 2.0, bUseScope ? 1 : 0);
+	DefaultReload(5, FIFTYCAL_RELOAD, 2.0, 1);
 }
 
 
@@ -220,15 +213,7 @@ void CFiftyCal::WeaponIdle()
 		iAnim = FIFTYCAL_FIDGET;
 		m_flTimeWeaponIdle = (170.0 / 30.0);
 	}
-
-	bool bUseScope = false;
-#ifdef CLIENT_DLL
-	bUseScope = bIsMultiplayer();
-#else
-	bUseScope = g_pGameRules->IsMultiplayer();
-#endif
-
-	SendWeaponAnim(iAnim, bUseScope ? 1 : 0);
+	SendWeaponAnim(iAnim, 1);
 }
 
 
