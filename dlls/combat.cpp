@@ -1478,6 +1478,84 @@ Go to the trouble of combining multiple pellets into a single damage call.
 This version is used by Players, uses the random seed generator to sync client and server side shots.
 ================
 */
+// My piercing version is here
+Vector CBaseEntity::FireBulletsPlayerPiercing(unsigned int cShots, Vector vecSrc, Vector vecDirShooting, Vector vecSpread, float flDistance, int iBulletType, int iTracerFreq, int iDamage, entvars_t* pevAttacker, int shared_rand)
+{
+	static int tracerCount;
+	TraceResult tr;
+	Vector vecRight = gpGlobals->v_right;
+	Vector vecUp = gpGlobals->v_up;
+	float x = 0, y = 0, z;
+
+	if (pevAttacker == NULL)
+		pevAttacker = pev; // the default attacker is ourselves
+
+	ClearMultiDamage();
+	gMultiDamage.type = DMG_BULLET | DMG_NEVERGIB;
+
+	for (unsigned int iShot = 1; iShot <= cShots; iShot++)
+	{
+		// Use player's random seed.
+		//  get circular gaussian spread
+		x = UTIL_SharedRandomFloat(shared_rand + iShot, -0.5, 0.5) + UTIL_SharedRandomFloat(shared_rand + (1 + iShot), -0.5, 0.5);
+		y = UTIL_SharedRandomFloat(shared_rand + (2 + iShot), -0.5, 0.5) + UTIL_SharedRandomFloat(shared_rand + (3 + iShot), -0.5, 0.5);
+		z = x * x + y * y;
+
+		Vector vecDir = vecDirShooting +
+						x * vecSpread.x * vecRight +
+						y * vecSpread.y * vecUp;
+		Vector vecEnd;
+
+		vecEnd = vecSrc + vecDir * flDistance;
+		UTIL_TraceLine(vecSrc, vecEnd, dont_ignore_monsters, ENT(pev) /*pentIgnore*/, &tr);
+
+		// do damage, paint decals
+		if (tr.flFraction != 1.0)
+		{
+			CBaseEntity* pEntity = CBaseEntity::Instance(tr.pHit);
+
+			if (0 != iDamage)
+			{
+				pEntity->TraceAttack(pevAttacker, iDamage, vecDir, &tr, DMG_BULLET | DMG_ALWAYSGIB);
+
+				TEXTURETYPE_PlaySound(&tr, vecSrc, vecEnd, iBulletType);
+				DecalGunshot(&tr, iBulletType);
+			}
+			else
+				switch (iBulletType)
+				{
+				default:
+
+				case BULLET_PLAYER_50:
+					pEntity->TraceAttack(pevAttacker, gSkillData.plrDmg50Cal, vecDir, &tr, DMG_BULLET | DMG_ALWAYSGIB);
+					break;
+
+				case BULLET_PLAYER_MP5:
+					pEntity->TraceAttack(pevAttacker, gSkillData.plrDmgMP5, vecDir, &tr, DMG_BULLET);
+					break;
+
+				case BULLET_NONE: // FIX
+					pEntity->TraceAttack(pevAttacker, 50, vecDir, &tr, DMG_CLUB);
+					TEXTURETYPE_PlaySound(&tr, vecSrc, vecEnd, iBulletType);
+					// only decal glass
+					if (!FNullEnt(tr.pHit) && VARS(tr.pHit)->rendermode != 0)
+					{
+						UTIL_DecalTrace(&tr, DECAL_GLASSBREAK1 + RANDOM_LONG(0, 2));
+					}
+
+					break;
+				}
+		}
+		// make bullet trails
+		UTIL_BubbleTrail(vecSrc, tr.vecEndPos, (flDistance * tr.flFraction) / 64.0);
+	}
+	ApplyMultiDamage(pev, pevAttacker);
+
+	return Vector(x * vecSpread.x, y * vecSpread.y, 0.0);
+}
+
+
+
 Vector CBaseEntity::FireBulletsPlayer(unsigned int cShots, Vector vecSrc, Vector vecDirShooting, Vector vecSpread, float flDistance, int iBulletType, int iTracerFreq, int iDamage, entvars_t* pevAttacker, int shared_rand)
 {
 	static int tracerCount;
