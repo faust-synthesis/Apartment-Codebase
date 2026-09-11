@@ -225,8 +225,7 @@ void CGameRules::RefreshSkillData()
 	gSkillData.plrDmgMP5 = GetSkillCvar("sk_plr_9mm_bullet");
 
 	// MONSTER WEAPONS
-	gSkillData.monDmg50Cal = GetSkillCvar("sk_9mm_bullet");
-	gSkillData.monDmgMP5 = GetSkillCvar("sk_50cal_bullet");
+	gSkillData.monDmgMP5 = GetSkillCvar("sk_9mm_bullet");
 
 	// HEALTH/CHARGE
 	gSkillData.healthkitCapacity = GetSkillCvar("sk_healthkit");

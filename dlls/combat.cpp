@@ -1411,8 +1411,7 @@ void CBaseEntity::FireBullets(unsigned int cShots, Vector vecSrc, Vector vecDirS
 
 			switch (iBulletType)
 			{
-			case BULLET_PLAYER_50:
-			case BULLET_PLAYER_MP5:
+			case BULLET_MILITARY_MP5:
 			default:
 				MESSAGE_BEGIN(MSG_PAS, SVC_TEMPENTITY, vecTracerSrc);
 				WRITE_BYTE(TE_TRACER);
@@ -1442,7 +1441,7 @@ void CBaseEntity::FireBullets(unsigned int cShots, Vector vecSrc, Vector vecDirS
 				switch (iBulletType)
 				{
 				default:
-				case BULLET_PLAYER_MP5:
+				case BULLET_MILITARY_MP5:
 					pEntity->TraceAttack(pevAttacker, gSkillData.monDmgMP5, vecDir, &tr, DMG_BULLET);
 
 					TEXTURETYPE_PlaySound(&tr, vecSrc, vecEnd, iBulletType);

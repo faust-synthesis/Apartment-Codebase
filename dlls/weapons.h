@@ -66,6 +66,7 @@ typedef enum
 	BULLET_PLAYER_SLEDGEHAMMER, // melee
 	BULLET_PLAYER_50,		// fiftycal
 	BULLET_PLAYER_MP5,			// mp5
+	BULLET_MILITARY_MP5,			// mp5
 } Bullet;
 
 

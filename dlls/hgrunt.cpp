@@ -47,18 +47,15 @@ int g_fGruntQuestion; // true if an idle grunt asked a question. Cleared when so
 //=========================================================
 // monster-specific DEFINE's
 //=========================================================
-#define GRUNT_CLIP_SIZE 36	 // how many bullets in a clip? - NOTE: 3 round burst sound, so keep as 3 * x!
+#define GRUNT_CLIP_SIZE 48	 // how many bullets in a clip? - NOTE: 3 round burst sound, so keep as 3 * x!
 #define GRUNT_VOL 0.35		 // volume of grunt sounds
 #define GRUNT_ATTN ATTN_NORM // attenutation of grunt sentences
-#define HGRUNT_LIMP_HEALTH 20
-#define HGRUNT_DMG_HEADSHOT (DMG_BULLET | DMG_CRUSH) // damage types that can kill a grunt with a single headshot.
+#define HGRUNT_LIMP_HEALTH 50
+#define HGRUNT_DMG_HEADSHOT (DMG_CRUSH) // damage types that can kill a grunt with a single headshot.
 #define HGRUNT_NUM_HEADS 2							// how many grunt heads are there?
-#define HGRUNT_MINIMUM_HEADSHOT_DAMAGE 15			// must do at least this much damage in one shot to head to score a headshot kill
 #define HGRUNT_SENTENCE_VOLUME (float)0.35			// volume of grunt sentences
 
-#define HGRUNT_9MMAR (1 << 0)
-#define HGRUNT_HANDGRENADE (1 << 1)
-#define HGRUNT_GRENADELAUNCHER (1 << 2)
+#define HGRUNT_MP5 (1 << 0)
 #define HGRUNT_SHOTGUN (1 << 3)
 
 #define HEAD_GROUP 1
@@ -260,11 +257,6 @@ void CHGrunt::SpeakSentence()
 //=========================================================
 int CHGrunt::IRelationship(CBaseEntity* pTarget)
 {
-	if (FClassnameIs(pTarget->pev, "monster_alien_grunt") || (FClassnameIs(pTarget->pev, "monster_gargantua")))
-	{
-		return R_NM;
-	}
-
 	return CSquadMonster::IRelationship(pTarget);
 }
 
@@ -283,26 +275,16 @@ void CHGrunt::GibMonster()
 		CBaseEntity* pGun;
 		if (FBitSet(pev->weapons, HGRUNT_SHOTGUN))
 		{
-			pGun = DropItem("weapon_shotgun", vecGunPos, vecGunAngles);
+			pGun = DropItem("item_healthkit", vecGunPos, vecGunAngles);
 		}
 		else
 		{
-			pGun = DropItem("weapon_9mmAR", vecGunPos, vecGunAngles);
+			pGun = DropItem("weapon_mp5", vecGunPos, vecGunAngles);
 		}
 		if (pGun)
 		{
 			pGun->pev->velocity = Vector(RANDOM_FLOAT(-100, 100), RANDOM_FLOAT(-100, 100), RANDOM_FLOAT(200, 300));
 			pGun->pev->avelocity = Vector(0, RANDOM_FLOAT(200, 400), 0);
-		}
-
-		if (FBitSet(pev->weapons, HGRUNT_GRENADELAUNCHER))
-		{
-			pGun = DropItem("ammo_ARgrenades", vecGunPos, vecGunAngles);
-			if (pGun)
-			{
-				pGun->pev->velocity = Vector(RANDOM_FLOAT(-100, 100), RANDOM_FLOAT(-100, 100), RANDOM_FLOAT(200, 300));
-				pGun->pev->avelocity = Vector(0, RANDOM_FLOAT(200, 400), 0);
-			}
 		}
 	}
 
@@ -665,7 +647,7 @@ void CHGrunt::Shoot()
 
 	Vector vecShellVelocity = gpGlobals->v_right * RANDOM_FLOAT(40, 90) + gpGlobals->v_up * RANDOM_FLOAT(75, 200) + gpGlobals->v_forward * RANDOM_FLOAT(-40, 40);
 	EjectBrass(vecShootOrigin - vecShootDir * 24, vecShellVelocity, pev->angles.y, m_iBrassShell, TE_BOUNCE_SHELL);
-	FireBullets(1, vecShootOrigin, vecShootDir, VECTOR_CONE_10DEGREES, 2048, BULLET_PLAYER_MP5); // shoot +-5 degrees
+	FireBullets(1, vecShootOrigin, vecShootDir, VECTOR_CONE_9DEGREES, 2048, BULLET_MILITARY_MP5); // shoot +-4.5 degrees
 
 	pev->effects |= EF_MUZZLEFLASH;
 
@@ -728,15 +710,11 @@ void CHGrunt::HandleAnimEvent(MonsterEvent_t* pEvent)
 			// now spawn a gun.
 			if (FBitSet(pev->weapons, HGRUNT_SHOTGUN))
 			{
-				DropItem("weapon_shotgun", vecGunPos, vecGunAngles);
+				DropItem("item_healthkit", vecGunPos, vecGunAngles);
 			}
 			else
 			{
-				DropItem("weapon_9mmAR", vecGunPos, vecGunAngles);
-			}
-			if (FBitSet(pev->weapons, HGRUNT_GRENADELAUNCHER))
-			{
-				DropItem("ammo_ARgrenades", BodyTarget(pev->origin), vecGunAngles);
+				DropItem("weapon_mp5", vecGunPos, vecGunAngles);
 			}
 		}
 	}
@@ -768,8 +746,9 @@ void CHGrunt::HandleAnimEvent(MonsterEvent_t* pEvent)
 
 	case HGRUNT_AE_BURST1:
 	{
-		if (FBitSet(pev->weapons, HGRUNT_9MMAR))
+		if (FBitSet(pev->weapons, HGRUNT_MP5))
 		{
+			Shoot();
 			Shoot();
 
 			// the first round of the three round burst plays the sound and puts a sound in the world sound list.
@@ -795,6 +774,7 @@ void CHGrunt::HandleAnimEvent(MonsterEvent_t* pEvent)
 
 	case HGRUNT_AE_BURST2:
 	case HGRUNT_AE_BURST3:
+		Shoot();
 		Shoot();
 		break;
 
@@ -860,8 +840,8 @@ void CHGrunt::Spawn()
 	if (pev->weapons == 0)
 	{
 		// initialize to original values
-		pev->weapons = HGRUNT_9MMAR | HGRUNT_HANDGRENADE;
-		// pev->weapons = HGRUNT_SHOTGUN;
+		pev->weapons = HGRUNT_MP5;
+		pev->weapons = HGRUNT_SHOTGUN;
 		// pev->weapons = HGRUNT_9MMAR | HGRUNT_GRENADELAUNCHER;
 	}
 
@@ -884,11 +864,6 @@ void CHGrunt::Spawn()
 	if (FBitSet(pev->weapons, HGRUNT_SHOTGUN))
 	{
 		SetBodygroup(HEAD_GROUP, HEAD_SHOTGUN);
-	}
-	else if (FBitSet(pev->weapons, HGRUNT_GRENADELAUNCHER))
-	{
-		SetBodygroup(HEAD_GROUP, HEAD_M203);
-		pev->skin = 1; // alway dark skin
 	}
 
 	CTalkMonster::g_talkWaitTime = 0;
@@ -1685,7 +1660,7 @@ void CHGrunt::SetActivity(Activity NewActivity)
 	{
 	case ACT_RANGE_ATTACK1:
 		// grunt is either shooting standing or shooting crouched
-		if (FBitSet(pev->weapons, HGRUNT_9MMAR))
+		if (FBitSet(pev->weapons, HGRUNT_MP5))
 		{
 			if (m_fStanding)
 			{
@@ -1713,18 +1688,6 @@ void CHGrunt::SetActivity(Activity NewActivity)
 		}
 		break;
 	case ACT_RANGE_ATTACK2:
-		// grunt is going to a secondary long range attack. This may be a thrown
-		// grenade or fired grenade, we must determine which and pick proper sequence
-		if ((pev->weapons & HGRUNT_HANDGRENADE) != 0)
-		{
-			// get toss anim
-			iSequence = LookupSequence("throwgrenade");
-		}
-		else
-		{
-			// get launch anim
-			iSequence = LookupSequence("launchgrenade");
-		}
 		break;
 	case ACT_RUN:
 		if (pev->health <= HGRUNT_LIMP_HEALTH)
@@ -1941,13 +1904,6 @@ Schedule_t* CHGrunt::GetSchedule()
 		else if (HasConditions(bits_COND_CAN_MELEE_ATTACK1))
 		{
 			return GetScheduleOfType(SCHED_MELEE_ATTACK1);
-		}
-		// can grenade launch
-
-		else if (FBitSet(pev->weapons, HGRUNT_GRENADELAUNCHER) && HasConditions(bits_COND_CAN_RANGE_ATTACK2) && OccupySlot(bits_SLOTS_HGRUNT_GRENADE))
-		{
-			// shoot a grenade if you can
-			return GetScheduleOfType(SCHED_RANGE_ATTACK2);
 		}
 		// can shoot
 		else if (HasConditions(bits_COND_CAN_RANGE_ATTACK1))

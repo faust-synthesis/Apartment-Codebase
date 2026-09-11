@@ -40,7 +40,6 @@ struct skilldata_t
 	float plrDmgMP5;
 
 	// weapons shared by monsters
-	float monDmg50Cal;
 	float monDmgMP5;
 
 	// health/suit charge
